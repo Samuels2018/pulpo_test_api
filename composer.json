@@ -1,0 +1,17 @@
+{
+    "name": "root/fontend_pulpo_test",
+    "description": "fronted with php",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Root\\FontendPulpoTest\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mel"
+        }
+    ],
+    "require": {}
+}
