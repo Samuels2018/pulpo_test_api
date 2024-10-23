@@ -8,7 +8,7 @@ const app = express();
 
 
 const corsOptions = {
-  origin: 'http://localhost',  // Permite tu frontend
+  origin: process.env.CORS_ORIGIN || 'http://localhost', 
   methods: 'GET,POST',
   allowedHeaders: 'Content-Type,Authorization'
 };

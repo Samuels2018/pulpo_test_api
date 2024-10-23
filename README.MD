@@ -31,3 +31,15 @@ localhost:3000/auth/register
 
 # change password
 localhost:3000/auth/change_password/some_nomber
+
+
+# test commands 
+
+# test for all auth routes
+npm test:auth 
+
+# test for all user routes
+npm test:users
+
+# execute all test
+nom test
