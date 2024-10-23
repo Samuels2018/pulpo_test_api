@@ -3,7 +3,7 @@
 const { Client, TokenCreateTransaction, Hbar, PrivateKey, AccountCreateTransaction } = require("@hashgraph/sdk");
 const {user_tokens} = require("../models");
 const {getAllUserTokens} = require("../services/userService");
-const dataToken = require('../config/dataToken.json')
+const dataToken = require('../config/tokes.json')
 
 
 const createTokenHedera = async (req, res) => {

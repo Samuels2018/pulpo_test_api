@@ -2,7 +2,7 @@
 
 const jwt = require("jsonwebtoken")
 require('dotenv').config
-const dataToken = require('../config/token')
+const dataToken = require('../config/tokes.json')
 
 // create token
 function createToken(id) {
