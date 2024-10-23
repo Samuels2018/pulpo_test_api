@@ -3,6 +3,7 @@
 const { Client, TokenCreateTransaction, Hbar, PrivateKey, AccountCreateTransaction } = require("@hashgraph/sdk");
 const {user_tokens} = require("../models");
 const {getAllUserTokens} = require("../services/userService");
+const dataToken = require('../config/dataToken.json')
 
 
 const createTokenHedera = async (req, res) => {
@@ -10,8 +11,16 @@ const createTokenHedera = async (req, res) => {
     const { tokenNombre, tokenSimbolo, tokenNumber, userId } = req.body;
 
     // Configurar el cliente de Hedera con la nueva cuenta creada
+    if (process.env.NODE_ENV !== "development") {
+      MY_ACCOUNT_ID = process.env.MY_ACCOUNT_ID
+      MY_PRIVATE_KEY = process.env.MY_PRIVATE_KEY
+    }else{
+      MY_ACCOUNT_ID = dataToken.MY_ACCOUNT_ID
+      MY_PRIVATE_KEY = dataToken.MY_PRIVATE_KEY
+    }
+
     const client = Client.forTestnet();
-    client.setOperator(process.env.MY_ACCOUNT_ID, process.env.MY_PRIVATE_KEY);
+    client.setOperator(MY_ACCOUNT_ID, MY_PRIVATE_KEY);
 
     // Crear la transacción del token
     const transaction = await new TokenCreateTransaction()
@@ -19,7 +28,7 @@ const createTokenHedera = async (req, res) => {
       .setTokenName(tokenNombre)
       .setTokenSymbol(tokenSimbolo)
       .setInitialSupply(tokenNumber)
-      .setTreasuryAccountId(process.env.MY_ACCOUNT_ID)
+      .setTreasuryAccountId(MY_ACCOUNT_ID)
       .setAdminKey(client.operatorPublicKey)
       .setFreezeKey(client.operatorPublicKey)
       .setKycKey(client.operatorPublicKey)

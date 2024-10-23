@@ -2,6 +2,7 @@
 
 const jwt = require("jsonwebtoken")
 require('dotenv').config
+const dataToken = require('../config/token')
 
 // create token
 function createToken(id) {
@@ -9,14 +10,27 @@ function createToken(id) {
     id: id,
   }
 
-  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" })
+  if (process.env.NODE_ENV === "development") {
+    JWT_SECRET = process.env.JWT_SECRET
+  }else{
+    JWT_SECRET = dataToken.JWT_SECRET
+  }
+
+  return jwt.sign(payload, JWT_SECRET, { expiresIn: "1d" })
 }
 
 // decoding token
 function verifyToken(token) {
+
+  if (process.env.NODE_ENV === "development") {
+    JWT_SECRET = process.env.JWT_SECRET
+  }else{
+    JWT_SECRET = dataToken.JWT_SECRET
+  }
+
   const decoded = new Promise((resolve, reject) => {
     try {
-      const payload=  jwt.verify(token, process.env.JWT_SECRET)
+      const payload=  jwt.verify(token, JWT_SECRET)
       resolve(payload.id)
     }catch(error) {
       reject({
