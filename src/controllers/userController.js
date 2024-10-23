@@ -1,6 +1,7 @@
 "use strict";
 
 const {getAllUsers, findById} = require("../services/userService");
+const {user} = require("../models");
 
 async function getAllUser(req, res) {
   const data = await getAllUsers();

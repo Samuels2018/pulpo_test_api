@@ -16,13 +16,17 @@ const createUser = async (email, userName, name, phone, status, hash) => {
     status: status !== undefined ? status : 1,
     createdAt: new Date(),
     updatedAt: new Date(),
-  };
+  }
+
+  console.log('defaultData', defaultData)
 
   const [row, created] = await user.findOrCreate({
     where: { email: email },
     // i still don't define the default value for the status column
     defaults: defaultData,
   })
+
+  console.log('dwdwwdwdw')
 
 
   return { row, created }
@@ -31,7 +35,6 @@ const createUser = async (email, userName, name, phone, status, hash) => {
 
 // find user by email
 const findByEmail = async (email) => {
-  console.log('findByEmail', email)
   return await user.findOne({ where: { email } })
 }
 

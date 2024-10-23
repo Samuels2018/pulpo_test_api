@@ -32,3 +32,8 @@ node_modules/
 
 # Parcel cache
 .cache
+
+.gitignore
+
+
+test/main_command.txt

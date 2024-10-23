@@ -5,6 +5,9 @@ require('dotenv').config();
 
 
 const auth =  (req, res, next) => {
+  console.log("auth")
+  console.log(req.headers.authorization)
+
   if (!req.headers.authorization) {
     return res.status(401).send({ message: "Not have any authorization" })
   }

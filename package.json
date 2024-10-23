@@ -29,6 +29,9 @@
     "sequelize": "^6.37.4"
   },
   "devDependencies": {
-    "sequelize-cli": "^6.6.2"
+    "chai": "^5.1.1",
+    "mocha": "^10.7.3",
+    "sequelize-cli": "^6.6.2",
+    "supertest": "^7.0.0"
   }
 }

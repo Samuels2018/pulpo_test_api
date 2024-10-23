@@ -6,7 +6,7 @@ const {getAllUserTokens} = require("../services/userService");
 
 const createTokenHedera = async (req, res) => {
   try {
-    const { name, symbol, initialSupply } = req.body;
+    const { tokenNombre, tokenSimbolo, tokenNumber, userId } = req.body;
 
     // Configurar el cliente de Hedera
     const client = Client.forTestnet(); // O Client.forMainnet() si estás usando la red principal
@@ -14,18 +14,19 @@ const createTokenHedera = async (req, res) => {
 
     // Crear la transacción del token
     const transaction = await new TokenCreateTransaction()
-      .setTokenName(name)
-      .setTokenSymbol(symbol)
-      .setInitialSupply(initialSupply)
+      .setTokenName(tokenNombre)
+      .setTokenSymbol(tokenSimbolo)
+      .setInitialSupply(tokenNumber)
       .setTreasuryAccountId(process.env.HEDERA_ACCOUNT_ID)
       .setAdminKey(client.operatorPublicKey)
       .setSupplyKey(client.operatorPublicKey)
       .freezeWith(client)
-      .signWithOperator(client);
+      .signWithOperator(client)
 
+    console.log("Creating token...")
     // Enviar la transacción a la red Hedera
-    const response = await transaction.execute(client);
-    const receipt = await response.getReceipt(client);
+    const response = await transaction.execute(client)
+    const receipt = await response.getReceipt(client)
 
     // Obtener el ID del token creado
     const tokenId = receipt.tokenId;
@@ -42,7 +43,8 @@ const createTokenHedera = async (req, res) => {
 
 
 async function getAllTokens(req, res) {
-  const data = await getAllUserTokens();
+  console.log("getAllTokens")
+  const data = await user_tokens.findAll();
   return res.status(200).send({ data });
 }
 

@@ -10,7 +10,7 @@ const userAuth = Router()
 
 // registerValidator()
 userAuth.post("/login", loginValidator(), login)
-userAuth.post("/register", register)
-userAuth.put("/change-password/:id", auth, updatePasswordValidator(), changePassword)
+userAuth.post("/register", registerValidator(), register)
+userAuth.put("/change_password/:id", auth, updatePasswordValidator(), changePassword)
 
 module.exports = userAuth
