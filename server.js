@@ -8,8 +8,8 @@ const app = express();
 
 
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN || 'http://localhost', 
-  methods: 'GET,POST',
+  origin: process.env.CORS_ORIGIN || '*', 
+  methods: 'GET,POST,PUT,',
   allowedHeaders: 'Content-Type,Authorization'
 };
 

@@ -20,6 +20,7 @@ const auth =  (req, res, next) => {
       next()
     })
     .catch((error) => {
+      console.log("error", error)
       return res.status(401).send({
         code: response.code,
         message: response.message,
