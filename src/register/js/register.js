@@ -15,6 +15,7 @@ register_form_data.addEventListener('submit', function (e) {
   const confirmPassword = document.getElementById('confirm_password').value
 
   console.log(registerEmail,registerUsername,registerName,registerPhone,registerPassword,confirmPassword)
+  userStatus = 1
 
   data = {
     registerEmail,
@@ -22,14 +23,21 @@ register_form_data.addEventListener('submit', function (e) {
     registerName,
     registerPhone,
     registerPassword,
-    confirmPassword
+    confirmPassword,
+    userStatus
   }
 
   submitForm(data)
 })
 
 function submitForm() {
-  fetch('https://localhost:3000/auth/register', {
+  const isProduction = process.env.NODE_ENV === 'development';
+
+  const baseUrl = isProduction ? `${process.env.CORS_ORIGIN}/auth/register`: 'https://pulpo-test-api.onrender.com/auth/register'
+
+
+
+  fetch(baseUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -44,6 +52,11 @@ function submitForm() {
   })
   .then(data => {
     console.log('Success:', data)
+    if (data.token) {
+      document.cookie = `jwt=${data.token}; expires=${new Date(Date.now() + 3600000).toUTCString()}; path=/`;
+      document.cookie = `user_name=${data.user_name}; expires=${new Date(Date.now() + 3600000).toUTCString()}; path=/`;
+      document.cookie = `user_id=${data.id}; expires=${new Date(Date.now() + 3600000).toUTCString()}; path=/`;
+    }
     window.location.href = '../dashboard/form_dashboard.php';
   })
   .catch(error => {

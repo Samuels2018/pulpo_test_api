@@ -7,15 +7,6 @@
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
   </head>
   <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <?php
-      header("Access-Control-Allow-Origin: *");
-
-      // Permitir métodos HTTP específicos
-      header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-      
-      // Permitir encabezados específicos
-      header("Access-Control-Allow-Headers: Content-Type, Authorization");
-    ?>
     <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
       <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
         <h2 class="text-center text-2xl font-bold mb-4">Iniciar Sesión</h2>
@@ -64,65 +55,16 @@
             <p class="text-center mt-4">
               ¿No tienes una cuenta?
 
-              <a href="#" onclick="redirectRegister()" class="text-blue-500">
+              <a onclick="redirectRegister()" class="text-blue-500">
                 Regístrate
               </a>
             </p>
         </div>
+
+        <?php  include '../components/error/error_message.php'; ?>
     </div>
-    <script>
-      function redirectRegister () {
-  window.location.href = 'src/register/register_form.php'
-}
-
-function updatePassword () {
-  window.location.href = 'src/update_password/update_password_form.php'
-}
-
-const form_data = document.getElementById('login-form-data')
-form_data.addEventListener('submit', function (e) {
-  e.preventDefault()
-
-  const loginEmail = document.getElementById('login_email').value
-  const loginPassword = document.getElementById('login_password').value
-
-  console.log(loginEmail, loginPassword)
-
-  data = {
-    loginEmail,
-    loginPassword
-  }
-
-  formSubmit(data)
-})
-
-function formSubmit (data) {
-
-  fetch('http://localhost:3000/auth/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok')
-    }
-    return response.json()
-  })
-  .then(data => {
-    console.log('Success:', data)
-    if (data.token) {
-      document.cookie = `jwt=${data.token}; expires=${new Date(Date.now() + 3600000).toUTCString()}; path=/`;
-    }
-    window.location.href = '../dashboard/form_dashboard.php';
-  })
-  .catch(error => {
-    console.error('Error:',  error)
-    document.getElementById('error-message').innerHTML = error.message;
-  })
-}
+    <script src="./js/login.js">
+      
     </script>
   </body>
 

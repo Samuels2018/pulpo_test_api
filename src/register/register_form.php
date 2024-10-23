@@ -86,77 +86,18 @@
             Crear Cuenta
           </button>  
 
-          <a href="#" onclick="redirecLogin()" class="inline-block align-baseline text-sm text-blue-500 hover:text-blue-800">
+          <a onclick="redirecLogin()" class="inline-block align-baseline text-sm text-blue-500 hover:text-blue-800">
             ¿Ya posees una cuenta?
           </a>
         </div>
       </form>
 
-      <div id="error-message">
-
-      </div>
+      <?php  include '../components/error/error_message.php'; ?>
 
     </div>
 
-    <script>
-      function redirecLogin() {
-        window.location.href = 'src/login/login_form.php'
-      }
-
-      const register_form_data = document.getElementById('register_form_data')
-
-      register_form_data.addEventListener('submit', function (e) {
-        e.preventDefault()
-
-        const registerEmail = document.getElementById('register_email').value
-        const registerUsername = document.getElementById('register_username').value
-        const registerName = document.getElementById('register_name').value
-        const registerPhone = document.getElementById('register_phone').value
-        const registerPassword = document.getElementById('register_password').value
-        const confirmPassword = document.getElementById('confirm_password').value
-
-        console.log(registerEmail,registerUsername,registerName,registerPhone,registerPassword,confirmPassword)
-        userStatus = 1
-
-        data = {
-          registerEmail,
-          registerUsername,
-          registerName,
-          registerPhone,
-          registerPassword,
-          confirmPassword,
-          userStatus
-        }
-
-        submitForm(data)
-      })
-
-      function submitForm() {
-        fetch('http://localhost:3000/auth/register', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok')
-          }
-          return response.json()
-        })
-        .then(data => {
-          console.log('Success:', data)
-          if (data.token) {
-            document.cookie = `jwt=${data.token}; expires=${new Date(Date.now() + 3600000).toUTCString()}; path=/`;
-          }
-          window.location.href = '../dashboard/form_dashboard.php';
-        })
-        .catch(error => {
-          console.error('Error:',  error)
-          document.getElementById('error-message').innerHTML = error.message;
-        })
-      }
+    <script src="./js/register.js">
+      
 
 
     </script>

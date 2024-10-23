@@ -8,13 +8,6 @@ header("Access-Control-Allow-Origin: *"); // Permitir solicitudes desde cualquie
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS"); // Métodos permitidos
 header("Access-Control-Allow-Headers: Content-Type, Authorization"); // Cabeceras permitidas
 
-/*if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-  header("Access-Control-Allow-Origin: *");
-  header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-  header("Access-Control-Allow-Headers: Content-Type, Authorization");
-  exit(0);
-}*/
-
 // Verificar si el token es válido
 if (checkToken()) {
   header("Location: src/dashboard/form_dashboard.php");

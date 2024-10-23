@@ -7,7 +7,15 @@
       <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     </head>
   <body class="bg-gray-100">
-    
+    <?php
+      require('../helper/validate_token');
+
+      if (!checkToken()) {
+        header("Location: ../login/login_form.php");
+        exit();
+      }
+
+    ?>
 
     <div class="container mx-auto px-4 sm:px-8">
  

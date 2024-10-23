@@ -10,14 +10,14 @@ const form_data = document.getElementById('login-form-data')
 form_data.addEventListener('submit', function (e) {
   e.preventDefault()
 
-  const email = document.getElementById('login_email').value
-  const password = document.getElementById('login_password').value
+  const loginEmail = document.getElementById('login_email').value
+  const loginPassword = document.getElementById('login_password').value
 
-  console.log(email, password)
+  console.log(loginEmail, loginPassword)
 
   data = {
-    email,
-    password
+    loginEmail,
+    loginPassword
   }
 
   formSubmit(data)
@@ -25,7 +25,11 @@ form_data.addEventListener('submit', function (e) {
 
 function formSubmit (data) {
 
-  fetch('https://localhost:3000/auth/login', {
+  const isProduction = process.env.NODE_ENV === 'development';
+
+  const baseUrl = isProduction ? `${process.env.CORS_ORIGIN}/auth/login`: 'https://pulpo-test-api.onrender.com/auth/login'
+
+  fetch(baseUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -42,9 +46,13 @@ function formSubmit (data) {
     console.log('Success:', data)
     if (data.token) {
       document.cookie = `jwt=${data.token}; expires=${new Date(Date.now() + 3600000).toUTCString()}; path=/`;
+      document.cookie = `user_name=${data.user_name}; expires=${new Date(Date.now() + 3600000).toUTCString()}; path=/`;
+      document.cookie = `user_id=${data.id}; expires=${new Date(Date.now() + 3600000).toUTCString()}; path=/`;
     }
+    window.location.href = '../dashboard/form_dashboard.php';
   })
   .catch(error => {
     console.error('Error:',  error)
+    document.getElementById('error-message').innerHTML = error.message;
   })
 }

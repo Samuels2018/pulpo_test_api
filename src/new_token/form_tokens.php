@@ -7,6 +7,15 @@
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
   </head>
   <body class="bg-gray-100">
+    <?php
+      require('../helper/validate_token');
+
+      if (!checkToken()) {
+        header("Location: ../login/login_form.php");
+        exit();
+      }
+
+    ?>
     
     
     <div class="container mx-auto px-4 sm:px-8">
@@ -55,59 +64,11 @@
           </button>
         </div>
       </form>
+      <?php  include '../components/error/error_message.php'; ?>
+
     </div>
 
-    <script>
-      const tokenForm = document.getElementById('token_form')
-      
-      tokenForm.addEventListener('submit', function (e) {
-        e.preventDefault()
-        tokenNombre = document.getElementById('token_nombre').value
-        tokenSimbolo = document.getElementById('token_simbolo').value
-        tokenNumber = document.getElementById('token_suministro').value
-      
-        console.log(tokenNombre, tokenSimbolo, tokenNumber)
-      
-        userId = 5
-      
-        data = {
-          tokenNombre,
-          tokenSimbolo,
-          tokenNumber,
-          userId
-        }
-      
-        submitForm(data)
-      })
-      
-      function submitForm(data) {
-        let flag = false
-      
-        fetch('http://localhost:3000/user/create_token_hedera', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok')
-          }
-          return response.json()
-        })
-        .then(data => {
-          console.log('Success:', data)
-        })
-        .catch(error => {
-          console.error('Error:',  error)
-        })
-      
-        if (flag == true) {
-          window.location.href = '../dashboard/form_dashboard.php'
-          flag = false;
-        }
-      }
+    <script src="./js/token.js">
 
     </script>
 
